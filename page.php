@@ -1,5 +1,6 @@
 <?php
 add_action("wp_ajax_nopriv_page", "page");
+add_action("wp_ajax_page", "page");
 add_action('wp_enqueue_scripts','tagpagejsfilesave');
 add_shortcode('likertag', 'tagslist'); 
 
@@ -11,15 +12,20 @@ function tagpagejsfilesave(){
     wp_enqueue_script('page');
 }
 
+
 function page(){
     $page = $_POST['page'];
     $result=sorttagslike($page);
+    for($i=0;$i<count($result);$i++){
+      $result[$i]->link=get_tag_link($result[$i]->term_id);
+    }
     if (count($result)!=0) {
       $response['status']='ok';
       $response['data']=$result;
     }else {
       $response['status']='no';
     }
+
     $json=json_encode($response);
     echo $json;
     die();
@@ -34,7 +40,7 @@ function tagslist() {
 
       if($result) {
         for ($i=0; $i <count($result) ; $i++) { 
-            $output .= '<li><a href="'.get_tag_link(get_the_tags($result[$i]->name)).'">'. $result[$i]->name .'-'.$result[$i]->like.'</a></li>';
+            $output .= '<li><a href="'.get_tag_link($result[$i]->term_id).'">'. $result[$i]->name .'-'.$result[$i]->like.'</a></li>';
         }
       } else {
       _e('No tags created.', 'text-domain');
