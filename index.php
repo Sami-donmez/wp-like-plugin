@@ -56,7 +56,7 @@ function add_liker_tag_page() {
     wp_insert_post( $my_post );
 
 }
-require_once('setup.php');
+
 require_once('function.php');
 require_once('page.php');
 require_once('plugin.php');

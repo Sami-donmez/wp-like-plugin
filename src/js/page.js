@@ -1,7 +1,6 @@
 jQuery(document).ready(function($){
     $('.tagpagination').click(function(){
        var pageid=$(this).data("id");
-       //console.log(postid);
        $.ajax({
           type:'post',
           dataType:'json',

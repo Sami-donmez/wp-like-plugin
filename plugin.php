@@ -5,18 +5,13 @@ add_action("wp_ajax_liker", "liker");
 add_action("wp_ajax_nopriv_liker", "liker");
 add_action('wp_enqueue_scripts','jsfilesave');
 add_action('wp_insert_post', 'add_like_meta', 10, 2);
-add_filter('get_the_excerpt', 'exc');
 
-function exc($param) {
-
-    return "Whew !".$param;
-}
 
 function add_like_button($content)
 {
     $id = get_the_ID();
     $likevalue = likecount($id);
-    $like = "<button  style=' margin-left: 40%;margin-right:40%;width: 20%;' class='liker_plugin_button'  data-id='" . $id . "' ><img style='height:32px;width:32px;align-text:center;margin:%' src='".get_site_url()."/wp-content/plugins/wp like plugin/src/img/like.png' ><br> <span style='align-text:center;margin:auto;'> bu yazı <b>" . $likevalue . "</b> kez begenilmistir</span></button><br>";
+    $like = "<button  style=' margin-left: 40%;margin-right:40%;width: 20%;' value='like' class='liker_plugin_button'  data-id='" . $id . "' ><img style='height:32px;width:32px;align-text:center;margin:%' src='".get_site_url()."/wp-content/plugins/wp like plugin/src/img/like.png' ><br> <span style='align-text:center;margin:auto;'> bu yazı <b>" . $likevalue . "</b> kez begenilmistir</span></button><br>";
     $location=get_option('button_location');
     if ($location=="TOP") {
         return $like . $content ;
@@ -40,10 +35,12 @@ function add_meta_like($postid, $post) {
 function liker()
 {
     $postid = $_POST['id'];
+    $islem=$_POST['islem'];
+    $response=[];
     $postmeta = get_post_meta($postid, 'like', true);
     $likevalue = $postmeta == "" ? 0 : $postmeta;
-    $likevalue += 1;
-    $response=[];
+    $likevalue =$islem=='like'?$likevalue+1:$likevalue-1;
+    $response['islem']=$islem=='like'?'like':'dislike';
     if ($postmeta == "")
     {
         add_post_meta($postid, 'like', $likevalue);

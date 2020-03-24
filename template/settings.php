@@ -3,6 +3,8 @@ require_once(__DIR__.'/../languages/EN.php');
 
 function settingstemplate()
 {
+    var_dump($_POST);
+    var_dump($_FILES);
     global $dıl;
     $durum= 2;
     if(isset($_POST)){
@@ -15,7 +17,7 @@ function settingstemplate()
                     $durum=updatepwidgetsettings($_POST);
                     break;
                 case 'button':
-                   $durum=updatebuttonsettings($_POST);
+                   $durum=updatebuttonsettings($_POST,$_FILES);
                     break;
                 case 'plugin':
                     $durum=updatepluginsettings($_POST);
@@ -33,6 +35,7 @@ function settingstemplate()
     $location=get_option('button_location');
     $like=get_option('like_icon');
     $dislike=get_option('dislike_icon');
+    echo $durum;
 if($durum!=2) {
 ?>
 <div class="alert">
@@ -77,7 +80,7 @@ echo $lang;
         <form method="post">
             <label><?php echo $dıl['a'];?></label>
             <input type="hidden" name="islem" value="plugin">
-            <select id="lang">
+            <select id="lang" name="lang">
 
                 <option value="TR" <?=$lang=="TR"?'selected="true"':''?>>Türkçe</option>
                 <option value="EN" <?=$lang=="EN"?'selected="true"':''?>>English</option>
@@ -94,9 +97,9 @@ echo $lang;
     <div>
         <h1>Like buton ayarları</h1>
         <form method="post" enctype="multipart/form-data">
-        <input type="hidden" name="islem" value="page">
+        <input type="hidden" name="islem" value="button">
             <label for="">Buton Konum Ayarı</label>
-            <select id="Konum">
+            <select id="location" name="location">
                 <option value="BOTTOM" <?=$location=="BOTTOM"?'selected="true"':''?>>Yazının altında</option>
                 <option value="TOP" <?=$location=="TOP"?'selected="true"':''?>>Yazının üstünde</option>
             </select>
@@ -160,15 +163,20 @@ function updatepagesettings($data)
     return 0;
 }
 
-
 function updatepluginsettings($data)
 {
-   
+    var_dump($data);
+    if (!isset($data)) {
+        return 3;
+    }
+
+    if (isset($data['lang'])) {
+        update_option('plugin_lang',$data['lang']);
+        return 1;
+    }
     return 0;
-
 }
-
-
+    
 function updatepwidgetsettings($data){
 
     if (!isset($data)) {
@@ -181,12 +189,50 @@ function updatepwidgetsettings($data){
     
 }
 
-
-function updatebuttonsettings($data)
+function updatebuttonsettings($data,$file)
 {
-    return 0;
+  add_filter( 'upload_dir', 'wpse_141088_upload_dir' );
+  if($file['like']['name'] != ''){
+    
+    $uploadedfile = $file['like'];
+    $upload_overrides = array( 'test_form' => false );
+    $movefile = wp_handle_upload( $uploadedfile, $upload_overrides );
+    $imageurl = "";
+    if ( $movefile && ! isset( $movefile['error'] ) ) {
+       $imageurl = $movefile['url'];
+       echo "url : ".$imageurl;
+    } else {
+       echo $movefile['error'];
+    }
+  }
+  update_option('like_button',$file['dislike']['name']);
+  if($file['dislike']['name'] != ''){
+        $uploadedfile = $file['dislike'];
+        $upload_overrides = array( 'test_form' => false );
+        $movefile = wp_handle_upload( $uploadedfile, $upload_overrides );
+        $imageurl = "";
+        if ( $movefile && ! isset( $movefile['error'] ) ) {
+           $imageurl = $movefile['url'];
+           echo "url : ".$imageurl;
+        } else {
+           echo $movefile['error'];
+    }
+  }
+  update_option('dislike_button',$file['dislike']['name']);
+  remove_filter( 'upload_dir', 'wpse_141088_upload_dir' );
+  if(isset($data['location'])){
+    update_option('button_location',$data['location']);
+  }
+  return $imageurl; 
 }
 
+function wpse_141088_upload_dir( $dir ) {
+    return array(
+        'path'   => $dir['basedir'] . '/wp like plugin/',
+        'url'    => $dir['baseurl'] . '/wp like plugin',
+        'subdir' => '/wp like plugin',
+    ) + $dir;
+}
 
 
 ?>

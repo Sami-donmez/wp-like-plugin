@@ -1,9 +1,7 @@
 <?php
-
 add_action("wp_ajax_nopriv_page", "page");
 add_action('wp_enqueue_scripts','tagpagejsfilesave');
 add_shortcode('likertag', 'tagslist'); 
-
 
 function tagpagejsfilesave(){
     wp_register_script('page', plugins_url('src/js/page.js', __FILE__) , array(
@@ -33,16 +31,17 @@ function tagslist() {
   $limit=get_option('page_limit');
   $output='<div class=taglist>';
   $output .= '<ul class="tag-cloud-list">';
+
       if($result) {
         for ($i=0; $i <count($result) ; $i++) { 
-            $output .= '<li><a href="#">'. $result[$i]->name .'-'.$result[$i]->like.'</a></li>';
+            $output .= '<li><a href="'.get_tag_link(get_the_tags($result[$i]->name)).'">'. $result[$i]->name .'-'.$result[$i]->like.'</a></li>';
         }
       } else {
       _e('No tags created.', 'text-domain');
       }
   $output .= '</ul> </div> <br> <div style="display: inline-block;width:20%;height:20%;position: relative; padding: auto;">';
   $count=$counttag%$limit==0?$counttag/$limit:floor($counttag/$limit)+1;
-  $output.='<h1>'.$count.'</h1>';
+
   for ($i=0; $i < $count  ; $i++) { 
     $output.='<a href="#" style="
     text-decoration: none;color: black;
