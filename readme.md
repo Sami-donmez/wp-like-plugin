@@ -24,12 +24,15 @@ Wordpress temasında, tema ya da Wordpress'in core dosyalarının kaynak
 kodunda değişiklik yapılmadan çalışabilmesi isteniyor.
 ### Elle Kurulum
 - Projeyi .zip uzantılı olarak indirin 
+- [Buradan İndir](https://github.com/Sami-donmez/wp-like-plugin/archive/0,1.zip)
 - wp-contents/plugins içine çıkartın
 - Wordpress admin paneline girin
 - Eklenti paneline girin
 - Eklenti isminin yanında bulunan active(aktif yap) butonuna tıklayın
 
 ### Panelden Kurulum
+- Projeyi .zip uzantılı olarak indirin 
+- [Buradan İndir](https://github.com/Sami-donmez/wp-like-plugin/archive/0,1.zip)
 - Wordpress admin paneline girin
 - Eklenti paneline girin
 - "yeni ekle" butonuna tıkla

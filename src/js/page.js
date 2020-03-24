@@ -14,7 +14,7 @@ jQuery(document).ready(function($){
              if (result.status=="ok") {
                 htmlout='<ul>';
                 result.data.forEach(data => {
-                   htmlout+=" <li>"+data.name+"-"+data.like+"</li>"
+                   htmlout+=' <li><a href="'+data.link+'">'+data.name+'-'+data.like+'</a></li>'
                 }); 
                 htmlout+='</ul>';
                 $('.taglist').html(htmlout);
