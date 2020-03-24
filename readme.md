@@ -1,7 +1,6 @@
 # Wp Like Plugin
 Wordpress siteleri için yazı begenme eklentisi
 
-
 ### Proje Açıklaması
 Wordpress bir sitedeki her yazıda, bu yazının like'lanabileceği bir
 düğme olacak. Bu düğmeye tekrar basılarak like kaldırılabilecek. Bu
@@ -59,7 +58,5 @@ kodunda değişiklik yapılmadan çalışabilmesi isteniyor.
 ![cmd](https://i.resimyukle.xyz/7dx6N8.png)
 ![cmd](https://i.resimyukle.xyz/GbONOV.png)
 ![cmd](https://i.resimyukle.xyz/9zNAzc.png)
-### Program Çıktısı Örneği
-![excel](https://user-images.githubusercontent.com/29844065/58755254-9e064180-84e8-11e9-9aa6-636f5a0d86bd.png)
 
-`Hata,görüş ve yardım için iletişim: tamer.erdogaan@gmail.com`
+`Hata,görüş ve yardım için iletişim: samidonmezdeveloper@gmail.com`
